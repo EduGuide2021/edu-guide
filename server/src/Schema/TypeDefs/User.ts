@@ -1,4 +1,4 @@
-import { GraphQLObjectType, GraphQLID, GraphQLString, GraphQLBoolean } from "graphql";
+import { GraphQLObjectType, GraphQLID, GraphQLString, GraphQLBoolean, GraphQLInt } from "graphql";
 
 export const UserType = new GraphQLObjectType({
   name: "User",
@@ -10,7 +10,8 @@ export const UserType = new GraphQLObjectType({
     levelStrand: { type: GraphQLString },
     school: { type: GraphQLString },
     password: { type: GraphQLString },
-    is_admin: { type:GraphQLBoolean }
+    is_admin: { type:GraphQLBoolean },
+    general_test_score: { type:GraphQLInt }
   }),
 });
 

@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import "./General.css";
 import { Link } from "react-router-dom";
+import { useMutation } from "@apollo/client";
+import { UPDATE_GENERAL_SCORE } from "../account/Graphql/Mutation";
 
 export default function GenTest() {
   const questions = [
@@ -121,6 +123,8 @@ export default function GenTest() {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [showScore, setShowScore] = useState(false);
   const [score, setScore] = useState(0);
+  const [updateGeneralScore, { error }] = useMutation(UPDATE_GENERAL_SCORE);
+  const userInfo = JSON.parse(localStorage.getItem('user'))
 
   const handleAnswerOptionClick = (isCorrect) => {
     if (isCorrect) {
@@ -132,6 +136,7 @@ export default function GenTest() {
       setCurrentQuestion(nextQuestion);
     } else {
       setShowScore(true);
+      updateGeneralScore({variables:{id:userInfo?.id,score:score}})
     }
   };
 

@@ -5,13 +5,14 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 function TestResults() {
   const header = useSelector((state) => state.header);
+  const userInfo = JSON.parse(localStorage.getItem('user'))
   return (
     <div align="center">
       <h3> {header}'s Test Results</h3>
       <table className="results">
         <tr>
-          <td className="blue">General Test</td>
-          <td className="orange">Programmer | Director | Austronaut </td>
+          <td className="blue">General Test Score</td>
+          <td className="orange">{userInfo?.general_test_score}</td>
         </tr>
         <br></br>
         <tr>

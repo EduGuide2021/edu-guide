@@ -76,7 +76,7 @@ h3 {
 .question-text,
 .courses-title {
   background-color: var(--eduguide_blue);
-  color: white;
+  color: white !important;
   border: none;
   border-radius: 3vw;
   font-weight: bold;

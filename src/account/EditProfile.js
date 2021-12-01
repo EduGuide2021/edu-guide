@@ -3,11 +3,16 @@ import "./Account.css";
 import { Link } from "react-router-dom";
 import { EDIT_PROFILE } from "../account/Graphql/Mutation";
 import { useMutation } from "@apollo/client";
+import { message } from "antd";
+import { useDispatch } from "react-redux";
+import { setAccountDetails } from "../store/actions/header";
 
 function EditProfile() {
-  const [username, setUsername] = useState("");
-  const [levelStrand, setLevelStrand] = useState("");
-  const [school, setSchool] = useState("");
+  const userInfo = JSON.parse(localStorage.getItem('user'))
+  const [username, setUsername] = useState(userInfo?.username);
+  const [levelStrand, setLevelStrand] = useState(userInfo?.levelStrand);
+  const [school, setSchool] = useState(userInfo?.school);
+  const dispatch = useDispatch()
 
   const [editProfile] = useMutation(EDIT_PROFILE);
 
@@ -51,6 +56,7 @@ function EditProfile() {
                   type="text"
                   className="edit-field"
                   name="uname"
+                  value={username}
                   onChange={(event) => {
                     setUsername(event.target.value);
                   }}
@@ -63,6 +69,7 @@ function EditProfile() {
                   type="text"
                   className="edit-field"
                   name="lvlstrand"
+                  value={levelStrand}
                   onChange={(event) => {
                     setLevelStrand(event.target.value);
                   }}
@@ -75,6 +82,7 @@ function EditProfile() {
                   type="text"
                   className="edit-field"
                   name="school"
+                  value={school}
                   onChange={(event) => {
                     setSchool(event.target.value);
                   }}
@@ -93,13 +101,25 @@ function EditProfile() {
           className="reg-btn"
           value="Edit Profile"
           onClick={() => {
-            editProfile({
-              variables: {
-                username: username,
-                levelStrand: levelStrand,
-                school: school,
-              },
-            });
+            if(username && levelStrand){
+              editProfile({
+                variables: {
+                  id: userInfo?.id,
+                  username: username,
+                  levelStrand: levelStrand,
+                  school: school,
+                },
+              }).then(()=>{
+                let updatedUser={...userInfo,username:username,levelStrand:levelStrand,school:school}
+                localStorage.setItem('user',JSON.stringify(updatedUser))
+                dispatch(
+                  setAccountDetails(username)
+                );
+              })
+            }else{
+              message.error('Please fill details')
+            }
+            
           }}
         >
           Save Changes

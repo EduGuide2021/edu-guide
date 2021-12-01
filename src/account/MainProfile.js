@@ -9,6 +9,7 @@ import { assertNamedType } from "graphql";
 function MainProfile() {
   const header = useSelector((state) => state.header);
   const icon = useSelector((state) => state.icon);
+  const userInfo = JSON.parse(localStorage.getItem('user'))
 
   return (
     <div>
@@ -20,7 +21,7 @@ function MainProfile() {
             <form className="edit-form">
               <label>
                 <b>Name:</b>
-                <text type="text" className="edit-field" name="aname"></text>
+                <text type="text" className="edit-field" name="aname">{userInfo?.name}</text>
               </label>
               <br></br>
               <label>
@@ -32,12 +33,12 @@ function MainProfile() {
               <br></br>
               <label>
                 <b>Level/Strand:</b>
-                <input type="text" className="edit-field" name="lvlstrand" />
+                <text type="text" className="edit-field" name="aname">{userInfo?.levelStrand}</text>
               </label>
               <br></br>
               <label>
                 <b>School:</b>
-                <input type="text" className="edit-field" name="school" />
+                <text type="text" className="edit-field" name="aname">{userInfo?.school}</text>
               </label>
             </form>
           </td>

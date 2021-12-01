@@ -43,6 +43,7 @@ export const USER_LOGIN = gql`
       levelStrand
       school
       is_admin
+      general_test_score
       }
     }
   }
@@ -66,11 +67,13 @@ export const UPDATE_PASSWORD = gql`
 
 export const EDIT_PROFILE = gql`
   mutation editProfile(
+    $id: ID!
     $username: String!
     $levelStrand: String!
     $school: String!
   ) {
     editProfile(
+      id: $id
       newUsername: $username
       newLevelStrand: $levelStrand
       newSchool: $school
@@ -116,6 +119,20 @@ export const CREATE_BLOG = gql`
 export const DELETE_BLOG = gql`
   mutation deleteBlog($id: ID!) {
     deleteBlog(id: $id) {
+      message
+    }
+  }
+`;
+
+export const UPDATE_GENERAL_SCORE = gql`
+  mutation updateGeneralScore(
+    $id: ID!
+    $score: Int!
+  ) {
+    updateGeneralScore(
+      id: $id
+      score: $score
+    ) {
       message
     }
   }

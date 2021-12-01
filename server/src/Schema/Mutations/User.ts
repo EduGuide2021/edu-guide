@@ -1,7 +1,8 @@
-import { GraphQLID, GraphQLString } from "graphql";
+import { GraphQLID, GraphQLInt, GraphQLList, GraphQLObjectType, GraphQLString } from "graphql";
 import { UserInfoType, UserType } from "../TypeDefs/User";
 import { MessageType } from "../TypeDefs/Messages";
 import { Users } from "../../Entities/Users";
+import { Any } from "typeorm";
 
 export const CREATE_USER = {
   type: UserType,
@@ -15,13 +16,13 @@ export const CREATE_USER = {
   },
   async resolve(parent: any, args: any) {
     const { email, name, username, levelStrand, school, password } = args;
-    let user =await Users.findOne({email:email})
-    if(user){
+    let user = await Users.findOne({ email: email })
+    if (user) {
       throw new Error("Email already exist");
     }
-    let is_admin=false;
-    if(username==='admin'){
-      is_admin=true
+    let is_admin = false;
+    if (username === 'admin') {
+      is_admin = true
     }
     await Users.insert({
       email,
@@ -52,7 +53,7 @@ export const USER_LOGIN = {
     const userPassword = user?.password;
 
     if (password === userPassword) {
-      return { successful: true, message: "LOGIN SUCCESS!" ,user:user };
+      return { successful: true, message: "LOGIN SUCCESS!", user: user };
     } else {
       throw new Error("WRONG PASSWORD!");
     }
@@ -88,17 +89,18 @@ export const UPDATE_PASSWORD = {
 export const EDIT_PROFILE = {
   type: MessageType,
   args: {
+    id: {type: GraphQLID},
     newUsername: { type: GraphQLString },
     newLevelStrand: { type: GraphQLString },
     newSchool: { type: GraphQLString },
   },
   async resolve(parent: any, args: any) {
-    const { newUsername, newLevelStrand, newSchool } = args;
-    const user = await Users.findOne({ username: newUsername });
+    const { id,newUsername, newLevelStrand, newSchool } = args;
+    const user = await Users.findOne({ id: id });
 
     if (user) {
       await Users.update(
-        { username: newUsername },
+        { id: id },
         {
           username: newUsername,
           levelStrand: newLevelStrand,
@@ -123,3 +125,28 @@ export const DELETE_USER = {
     return { successful: true, message: "DELETE WORKED" };
   },
 };
+
+export const UPDATE_GENERAL_SCORE = {
+  type: MessageType,
+  args: {
+    id: { type: GraphQLID },
+    score: { type: GraphQLInt }
+  },
+  async resolve(parent: any, args: any) {
+    const id = args.id;
+    const score = args.score
+    const user = await Users.findOne({ id: id });
+    if (user) {
+      await Users.update(
+        { id: id },
+        {
+          general_test_score: score
+        }
+      );
+
+      return { successful: true, message: "SCORE UPDATED" };
+    }
+
+    return { successful: false, message: "SCORE UPDATE FAILED" };
+  },
+}

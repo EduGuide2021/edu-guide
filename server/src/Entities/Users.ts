@@ -25,4 +25,7 @@ export class Users extends BaseEntity {
 
   @Column()
   is_admin!: boolean;
+
+  @Column({default:0})
+  general_test_score!: number;
 }
