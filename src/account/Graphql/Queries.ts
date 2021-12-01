@@ -21,3 +21,15 @@ export const GET_ALL_POSTS = gql`
     }
   }
 `;
+
+export const GET_ALL_BLOGS = gql`
+  query getAllBlog {
+    getAllBlog {
+      id
+      content
+      creator
+      createdAt
+      is_approved  
+    }
+  }
+`;

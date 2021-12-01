@@ -103,3 +103,20 @@ export const DELETE_COMMUNITY = gql`
     }
   }
 `;
+
+export const CREATE_BLOG = gql`
+  mutation createBlog($content: String! $creator: ID!) {
+    createBlog(content: $content creator: $creator) {
+      content
+      creator
+    }
+  }
+`;
+
+export const DELETE_BLOG = gql`
+  mutation deleteBlog($id: ID!) {
+    deleteBlog(id: $id) {
+      message
+    }
+  }
+`;

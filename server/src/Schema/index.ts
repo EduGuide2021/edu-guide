@@ -9,12 +9,15 @@ import {
 } from "./Mutations/User";
 import { CREATE_COMMUNITY, DELETE_COMMUNITY } from "./Mutations/Community";
 import { GET_ALL_POSTS } from "./Queries/Community";
+import { GET_ALL_BLOGS } from "./Queries/Blog";
+import { CREATE_BLOG, DELETE_BLOG } from "./Mutations/Blog";
 
 const RootQuery = new GraphQLObjectType({
   name: "RootQuery",
   fields: {
     getAllUsers: GET_ALL_USERS,
-    getAllPost: GET_ALL_POSTS
+    getAllPost: GET_ALL_POSTS,
+    getAllBlog: GET_ALL_BLOGS
   },
 });
 
@@ -28,7 +31,10 @@ const Mutation = new GraphQLObjectType({
     updatePassword: UPDATE_PASSWORD,
     
     createCommunity: CREATE_COMMUNITY,
-    deleteCommunity: DELETE_COMMUNITY
+    deleteCommunity: DELETE_COMMUNITY,
+
+    createBlog: CREATE_BLOG,
+    deleteBlog: DELETE_BLOG,
   },
 });
 

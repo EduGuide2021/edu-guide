@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useMutation, useQuery } from "@apollo/client";
 import { CREATE_COMMUNITY,DELETE_COMMUNITY } from "../account/Graphql/Mutation";
 import { GET_ALL_POSTS } from "../account/Graphql/Queries";
+import icon from '../components/pics/icon7.png'
+import icon1 from '../components/pics/icon2.png'
 
 function Community() {
   const { data } = useQuery(GET_ALL_POSTS);
@@ -19,7 +21,7 @@ function Community() {
       <img src="./icons/Line.png" className="line"></img>
       <div className="commdiv">
         <div className="commicon">
-          <img src="./icons/icon 7.png"></img>
+          <img src={icon1}></img>
         </div>
         <textarea
           className="commfield"
@@ -43,7 +45,7 @@ function Community() {
           <div>
             <div className="commdiv">
               <div className="commicon">
-                <img src="./icons/icon 7.png"></img>
+                <img src={icon}></img>
               </div>
               <textarea className="comm_entry" value={item?.comment} disabled name="post" />
             </div>
@@ -68,7 +70,6 @@ function Community() {
               </a>
             </button>
             {userInfo?.is_admin && <button type="submit" className="deletebtn" onClick={()=>{
-              console.log(item)
               deleteCommunity({variables:{id:item?.id}})
             }}>
               Delete
