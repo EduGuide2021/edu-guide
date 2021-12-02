@@ -6,6 +6,7 @@ import { createConnection } from "typeorm";
 import { Users } from "./Entities/Users";
 import { Community } from "./Entities/Community";
 import { Blog } from "./Entities/Blog";
+import { SpecialTest } from "./Entities/SpecialTest";
 
 const main = async () => {
   await createConnection({
@@ -15,7 +16,7 @@ const main = async () => {
     password: "",
     logging: true,
     synchronize: true,
-    entities: [Users, Community,Blog],
+    entities: [Users, Community,Blog,SpecialTest],
 
   });
 

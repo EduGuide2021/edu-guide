@@ -2,7 +2,6 @@ import { GraphQLID, GraphQLInt, GraphQLList, GraphQLObjectType, GraphQLString } 
 import { UserInfoType, UserType } from "../TypeDefs/User";
 import { MessageType } from "../TypeDefs/Messages";
 import { Users } from "../../Entities/Users";
-import { Any } from "typeorm";
 
 export const CREATE_USER = {
   type: UserType,
@@ -148,5 +147,22 @@ export const UPDATE_GENERAL_SCORE = {
     }
 
     return { successful: false, message: "SCORE UPDATE FAILED" };
+  },
+}
+
+
+export const GET_CURRENT_USER = {
+  type: UserInfoType,
+  args: {
+    id: { type: GraphQLID },
+  },
+  async resolve(parent: any, args: any) {
+    const id = args.id;
+    const user = await Users.findOne({ id: id });
+    if (user) {
+      return { successful: true, message: "GET USER SUCCESS",user:user };
+    }
+
+    return { successful: false, message: "GET USER FAILED" };
   },
 }

@@ -37,13 +37,13 @@ export const USER_LOGIN = gql`
       message
       user {
         id
-      email
-      name
-      username
-      levelStrand
-      school
-      is_admin
-      general_test_score
+        email
+        name
+        username
+        levelStrand
+        school
+        is_admin
+        general_test_score
       }
     }
   }
@@ -134,6 +134,59 @@ export const UPDATE_GENERAL_SCORE = gql`
       score: $score
     ) {
       message
+    }
+  }
+`;
+
+export const UPDATE_SPECIAL_TEST = gql`
+  mutation updateSpecialTest(
+    $id: ID!
+    $test_name: String!
+    $test_score: Int!
+  ) {
+    updateSpecialTest(
+      id: $id
+      test_name: $test_name
+      test_score: $test_score
+    ) {
+      message
+    }
+  }
+`;
+
+export const GET_CURRENT_USER = gql`
+  mutation getCurrentUser(
+    $id: ID!
+  ) {
+    getCurrentUser(
+      id: $id
+    ) {
+      successful
+      message
+      user {
+        id
+        email
+        name
+        username
+        levelStrand
+        school
+        is_admin
+        general_test_score
+      }
+    }
+  }
+`;
+
+export const GET_SPECIAL_TESTS = gql`
+  mutation getSpecialTests(
+    $id: ID!
+  ) {
+    getSpecialTests(
+      id: $id
+    ) {
+      id
+      test_name
+      score
     }
   }
 `;

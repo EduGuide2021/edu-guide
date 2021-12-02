@@ -1,11 +1,21 @@
-import React, { Component } from "react";
+import React, { Component, useEffect } from "react";
 import "./Account.css";
 import { useSelector } from "react-redux";
 
 import { Link } from "react-router-dom";
+import { useMutation } from "@apollo/client";
+import { GET_SPECIAL_TESTS } from "./Graphql/Mutation";
 function TestResults() {
   const header = useSelector((state) => state.header);
   const userInfo = JSON.parse(localStorage.getItem('user'))
+  const [getSpecialTests, { data,error }] = useMutation(GET_SPECIAL_TESTS);
+
+  useEffect(()=>{
+    getSpecialTests({variables:{id:userInfo?.id}})
+  },[])
+
+  console.log(data)
+
   return (
     <div align="center">
       <h3> {header}'s Test Results</h3>
@@ -17,9 +27,12 @@ function TestResults() {
         <br></br>
         <tr>
           <td className="blue">Specialized Test</td>
-          <td className="orange">
-            Computer Science | Visual Arts | Austronomy{" "}
+          {data?.getSpecialTests?.map(item=>{
+            return <td className="orange">
+            {item?.test_name} / {item?.score}
           </td>
+          })}
+          
         </tr>
       </table>
       <div className="result-btn">

@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import "./Specialized.css";
 
 import { Link } from "react-router-dom";
+import { UPDATE_SPECIAL_TEST } from "../account/Graphql/Mutation";
+import { useMutation } from "@apollo/client";
 export default function BSCompSci() {
   const questions = [
     {
@@ -326,6 +328,8 @@ export default function BSCompSci() {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [showScore, setShowScore] = useState(false);
   const [score, setScore] = useState(0);
+  const userInfo = JSON.parse(localStorage.getItem('user'))
+  const [updateSpecialTest, { error }] = useMutation(UPDATE_SPECIAL_TEST);
 
   const handleAnswerOptionClick = (isCorrect) => {
     if (isCorrect) {
@@ -337,6 +341,7 @@ export default function BSCompSci() {
       setCurrentQuestion(nextQuestion);
     } else {
       setShowScore(true);
+      updateSpecialTest({variables:{id:userInfo?.id,test_name:"Computer Science",test_score:score}})
     }
   };
   return (

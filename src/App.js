@@ -1,6 +1,6 @@
 import { Component, useEffect } from "react";
 import { BrowserRouter as Router, Route,Redirect } from "react-router-dom";
-import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 
 import "./App.css";
 import Navbar from "./components/Navbar";
@@ -49,17 +49,19 @@ import Footer from "./components/Footer";
 
 import { useDispatch, useSelector } from "react-redux";
 import { setAccountDetails } from "./store/actions/header";
+import { GET_CURRENT_USER } from "./account/Graphql/Mutation";
 
 function App() {
   const dispatch = useDispatch();
+  const [getCurrentUser, { data,error }] = useMutation(GET_CURRENT_USER);
   const header = useSelector((state) => state.header);
-  const client = new ApolloClient({
-    uri: "http://localhost:3001/graphql",
-    cache: new InMemoryCache(),
-  });
+  
 
   useEffect(() => {
     if (localStorage.getItem("user")) {
+      getCurrentUser({variables:{id:JSON.parse(localStorage.getItem("user")).id}}).then((data)=>{
+        localStorage.setItem('user',JSON.stringify(data.data?.getCurrentUser?.user))
+      })
       dispatch(
         setAccountDetails(JSON.parse(localStorage.getItem("user")).username)
       );
@@ -68,7 +70,6 @@ function App() {
 
   return (
     <Router>
-      <ApolloProvider client={client}>
         <div className="app">
           <Navbar />
           <Sidebar />
@@ -111,7 +112,6 @@ function App() {
           <div className="push"></div>
           <Footer />
         </div>
-      </ApolloProvider>
     </Router>
   );
 }
