@@ -1,33 +1,6 @@
 import React, { Component } from "react";
 import "./Specialized.css";
 
-import { useState } from "react";
-
-//import { useHistory } from "react-router-dom";
-import { Link } from "react-router-dom";
-
-
-
-const changeCourses = ["BSCompSci", "BAEnglish", "BAJournalism"];
-
-const courses = () =>{
-  if (changeCourses === "BSCompSci"){
-    return(
-
-      <Link to="/bscompsci">
-      <button> Hehe </button></Link>
-      
-    );
-  }
-  else {
-    return(
-      <Link to="/spectest1">
-      <button> ahaha </button></Link>
-    );
-  }
-
-}
-
 export default class SpecDesc extends Component {
   state = {
     checkbox: "",
@@ -79,7 +52,7 @@ export default class SpecDesc extends Component {
   
 
   routeChange = () => {
-    this.props.history.push('/bscompsci',{selected:this.props?.history?.location?.state?.selected,topcourse:this.props?.history?.location?.state?.topCourse})
+    this.props.history.push('/special-test',{selected:this.props?.history?.location?.state?.selected,topcourse:this.props?.history?.location?.state?.topCourse})
   };
 
   render() {
@@ -120,7 +93,6 @@ export default class SpecDesc extends Component {
         </div>
         <br></br>
         <br></br>
-        {/* <Link to="/bscompsci"> */}
           <button
             className="button"
             type="submit"
