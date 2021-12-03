@@ -202,7 +202,7 @@ function SignUp(props) {
           </div>
           <br></br>
 
-          <button className="reg-btn" type="submit" onClick={handlePost}>
+          <button className="reg-btn" onClick={handlePost}>
             Sign up
           </button>
         </form>

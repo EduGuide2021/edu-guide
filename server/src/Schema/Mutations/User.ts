@@ -33,7 +33,7 @@ export const CREATE_USER = {
       password,
       is_admin
     });
-    return args;
+    return {...args,general_test_score:0,general_test_count:0,special_test_count:0};
   },
 };
 
