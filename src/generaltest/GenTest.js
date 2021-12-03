@@ -41,6 +41,8 @@ function GenTest() {
       return;
     }
     let topCourse= [sortedQuestions[0].category,sortedQuestions[1].category,sortedQuestions[2].category]
+    let user={...userInfo,general_test_score:topCourse?.join(',')}
+    localStorage.setItem('user',JSON.stringify(user))
     updateGeneralScore({ variables: { id: userInfo?.id, score: topCourse?.join(',') } });
     history.push('/gencourses',topCourse)
   }
@@ -90,7 +92,7 @@ function GenTest() {
                 setCurrentQuestion(currentQuestion+1)
               }
             }} className="reg-btn">
-              Next
+              Skip
             </button>
           </div>
           <p className="bottom_p">

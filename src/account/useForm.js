@@ -9,6 +9,7 @@ const useForm = (validate) => {
     levelStrand: "",
     school: "",
     password: "",
+    password2: ""
   });
 
   const [errors, setErrors] = useState({});
@@ -24,7 +25,7 @@ const useForm = (validate) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // setErrors(validate(values));
+    setErrors(validate(values));
   };
 
   return { handleSignup, values, handleSubmit, errors };

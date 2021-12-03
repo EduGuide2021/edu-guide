@@ -65,7 +65,7 @@ function LogIn() {
         }
       } catch (error) {
         console.log(error);
-        message.error("Something went wrong...please try again");
+        message.error(error?.message || "Something went wrong...please try again");
       }
     } else {
       message.error("Please enter valid details");
@@ -111,11 +111,7 @@ function LogIn() {
         <button className="reg-btn" type="submit" onClick={handleLogin}>
           Log in
         </button>
-
-        <p>Log In with</p>
-        <div align="center">
-          <GLogin />
-        </div>
+        <br></br>
         <br></br>
 
         <p>

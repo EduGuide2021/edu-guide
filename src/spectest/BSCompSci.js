@@ -7,7 +7,7 @@ import { UPDATE_SPECIAL_TEST } from "../account/Graphql/Mutation";
 import { useMutation } from "@apollo/client";
 export default function BSCompSci(props) {
   const history = useHistory()
-  const [questions] = useState(questionsData[props?.history?.location?.state?.selected]?.sort(() => 0.5 - Math.random())?.slice(0,10))
+  const [questions,setQuestions] = useState(questionsData[props?.history?.location?.state?.selected]?.sort(() => 0.5 - Math.random())?.slice(0,10))
   
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [showScore, setShowScore] = useState(false);
@@ -58,15 +58,26 @@ export default function BSCompSci(props) {
           </div>
           <div>
             <br></br>
-            <Link to="/specdesc" className="reg-btn">
+            <button onClick={()=>{
+              setQuestions(questionsData[props?.history?.location?.state?.selected]?.sort(() => 0.5 - Math.random())?.slice(0,10))
+              setCurrentQuestion(0)
+            }} className="reg-btn" type="reset">
               Reset
-            </Link>
-            <Link to="/spectest" className="reg-btn">
+            </button>
+            <button onClick={()=>{
+              if(currentQuestion!==0){
+                setCurrentQuestion(currentQuestion-1)
+              }
+            }} className="reg-btn">
               Back
-            </Link>
-            <Link to="/spectest" className="reg-btn">
-              Next
-            </Link>
+            </button>
+            <button onClick={()=>{
+              if(currentQuestion!==questions?.length-1){
+                setCurrentQuestion(currentQuestion+1)
+              }
+            }} className="reg-btn">
+              Skip
+            </button>
           </div>
           <p className="bottom_p">
             <b>Make the right decision.</b>

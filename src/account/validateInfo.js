@@ -27,19 +27,6 @@ export default function validateInfo(values) {
     errors.password = "Password is required";
   } else if (values.password.length < 8) {
     errors.password = "Password needs to be 8 characters";
-  } else if (
-    (validator.password,
-    {
-      minLength: 8,
-      minLowercase: 1,
-      minUppercase: 1,
-      minNumbers: 1,
-      minSymbols: 1,
-    })
-  ) {
-    errors.password = "Password is strong";
-  } else {
-    errors.password = "Password is not strong";
   }
 
   if (!values.password2) {

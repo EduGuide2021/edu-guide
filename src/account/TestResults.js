@@ -1,6 +1,7 @@
 import React, { Component, useEffect } from "react";
 import "./Account.css";
 import { useSelector } from "react-redux";
+import { FacebookShareButton } from "react-share";
 
 import { Link } from "react-router-dom";
 import { useMutation } from "@apollo/client";
@@ -29,13 +30,14 @@ function TestResults() {
         <br></br>
         <tr>
           <td className="blue">Specialized Test</td>
-          {data?.getSpecialTests?.map(item=>{
+          {data?.getSpecialTests.slice(Math.max(data?.getSpecialTests?.length - 3, 0))?.map(item=>{
             return <td className="orange">
             {item?.test_name} / {item?.score}
           </td>
           })}
           
         </tr>
+        <br></br>
         <tr>
           <td className="blue">General Test Count</td>
           <td className="orange">
@@ -43,6 +45,7 @@ function TestResults() {
           </td>
           
         </tr>
+        <br></br>
         <tr>
           <td className="blue">Specialized Test Count</td>
           <td className="orange">
@@ -55,9 +58,13 @@ function TestResults() {
         <Link to="/mainprofile" className="reg-btn" value="Save">
           Back
         </Link>
-        <Link to="/share" className="reg-btn" value="Cancel">
-          Share Results
-        </Link>
+        {/* <Link to="/share" className="reg-btn" value="Cancel"> */}
+          <button className='reg-btn'><FacebookShareButton url={"https://peing.net/ja/"}
+        quote={"Special test result"}
+        hashtag={"#edu"}
+        
+        description={`${data?.getSpecialTests[0]?.test_name} : ${data?.getSpecialTests[0]?.score}`}>Share Results </FacebookShareButton></button>
+        {/* </Link> */}
       </div>
       <p className="bottom_p">
         <b>Make the right decision.</b>

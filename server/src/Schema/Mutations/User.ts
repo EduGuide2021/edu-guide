@@ -2,6 +2,7 @@ import { GraphQLID, GraphQLInputObjectType, GraphQLInt, GraphQLList, GraphQLObje
 import { UserInfoType, UserType } from "../TypeDefs/User";
 import { MessageType } from "../TypeDefs/Messages";
 import { Users } from "../../Entities/Users";
+import bcrypt from 'bcrypt'
 import { Any } from "typeorm";
 
 export const CREATE_USER = {
@@ -24,16 +25,20 @@ export const CREATE_USER = {
     if (username === 'admin') {
       is_admin = true
     }
-    await Users.insert({
-      email,
-      name,
-      username,
-      levelStrand,
-      school,
-      password,
-      is_admin
-    });
-    return {...args,general_test_score:0,general_test_count:0,special_test_count:0};
+
+    bcrypt.hash(password, 10).then(async (hash: string) => {
+      await Users.insert({
+        email,
+        name,
+        username,
+        levelStrand,
+        school,
+        password: hash,
+        is_admin
+      });
+      return { ...args, general_test_score: 0, general_test_count: 0, special_test_count: 0 };
+    })
+
   },
 };
 
@@ -50,9 +55,10 @@ export const USER_LOGIN = {
     if (!user) {
       throw new Error("USERNAME DOESNT EXIST");
     }
-    const userPassword = user?.password;
 
-    if (password === userPassword) {
+    const match = await bcrypt.compare(password, user.password);
+
+    if (match) {
       return { successful: true, message: "LOGIN SUCCESS!", user: user };
     } else {
       throw new Error("WRONG PASSWORD!");
@@ -128,7 +134,7 @@ export const DELETE_USER = {
 
 export const UPDATE_GENERAL_SCORE = {
   type: MessageType,
-  args: { id: {type:GraphQLID}, score: {type:GraphQLString} },
+  args: { id: { type: GraphQLID }, score: { type: GraphQLString } },
   async resolve(parent: any, args: any) {
     const id = args.id;
     const score = args.score

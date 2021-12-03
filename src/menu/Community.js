@@ -1,16 +1,25 @@
 import React, { useState } from "react";
 import { useMutation, useQuery } from "@apollo/client";
-import { CREATE_COMMUNITY,DELETE_COMMUNITY } from "../account/Graphql/Mutation";
+import {
+  CREATE_COMMUNITY,
+  DELETE_COMMUNITY,
+} from "../account/Graphql/Mutation";
 import { GET_ALL_POSTS } from "../account/Graphql/Queries";
-import icon from '../components/pics/icon7.png'
-import icon1 from '../components/pics/icon2.png'
+import icon from "../components/pics/icon7.png";
+import icon1 from "../components/pics/icon2.png";
+import { FacebookShareButton } from "react-share";
 
 function Community() {
   const { data } = useQuery(GET_ALL_POSTS);
   const [message, setMessage] = useState("");
-  const [createCommunity, { error }] = useMutation(CREATE_COMMUNITY,{refetchQueries:[GET_ALL_POSTS]});
-  const [deleteCommunity, { deleteError=error }] = useMutation(DELETE_COMMUNITY,{refetchQueries:[GET_ALL_POSTS]});
-  const userInfo = JSON.parse(localStorage.getItem('user'))
+  const [createCommunity, { error }] = useMutation(CREATE_COMMUNITY, {
+    refetchQueries: [GET_ALL_POSTS],
+  });
+  const [deleteCommunity, { deleteError = error }] = useMutation(
+    DELETE_COMMUNITY,
+    { refetchQueries: [GET_ALL_POSTS] }
+  );
+  const userInfo = JSON.parse(localStorage.getItem("user"));
   if (error) {
     return <h1> {error} </h1>;
   }
@@ -35,7 +44,7 @@ function Community() {
         className="postbtn"
         onClick={() => {
           createCommunity({ variables: { comment: message } });
-          setMessage('')
+          setMessage("");
         }}
       >
         Post
@@ -47,18 +56,25 @@ function Community() {
               <div className="commicon">
                 <img src={icon}></img>
               </div>
-              <textarea className="comm_entry" value={item?.comment} disabled name="post" />
+              <textarea
+                className="comm_entry"
+                value={item?.comment}
+                disabled
+                name="post"
+              />
             </div>
             <button type="submit" className="commentbtn">
               Comment
             </button>
-            <button type="submit" className="share">
-              <a
-                href="https://facebook.com/"
-                className="share"
-                target="_blank"
-              ></a>
-              Share
+            <button className="reg-btn">
+              <FacebookShareButton
+                url={"https://peing.net/ja/"}
+                quote={"Community"}
+                hashtag={"#edu"}
+                description={`${item?.comment}`}
+              >
+                Share{" "}
+              </FacebookShareButton>
             </button>
             <button type="submit" className="sharebtn">
               <a
@@ -69,11 +85,17 @@ function Community() {
                 Report
               </a>
             </button>
-            {userInfo?.is_admin && <button type="submit" className="deletebtn" onClick={()=>{
-              deleteCommunity({variables:{id:item?.id}})
-            }}>
-              Delete
-            </button>}
+            {userInfo?.is_admin && (
+              <button
+                type="submit"
+                className="deletebtn"
+                onClick={() => {
+                  deleteCommunity({ variables: { id: item?.id } });
+                }}
+              >
+                Delete
+              </button>
+            )}
           </div>
         ))}
     </div>
