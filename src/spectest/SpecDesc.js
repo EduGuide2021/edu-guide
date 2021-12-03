@@ -78,9 +78,8 @@ export default class SpecDesc extends Component {
  
   
 
-  routeChange = (Link) => {
-    let path = `/bscompsci`;
-    Link = path;
+  routeChange = () => {
+    this.props.history.push('/bscompsci',{selected:this.props?.history?.location?.state?.selected,topcourse:this.props?.history?.location?.state?.topCourse})
   };
 
   render() {
@@ -121,7 +120,7 @@ export default class SpecDesc extends Component {
         </div>
         <br></br>
         <br></br>
-        <Link to="/bscompsci">
+        {/* <Link to="/bscompsci"> */}
           <button
             className="button"
             type="submit"
@@ -130,7 +129,7 @@ export default class SpecDesc extends Component {
           >
             Take the test
           </button>
-        </Link>
+        {/* </Link> */}
         <p className="bottom_p">
           <b>Make the right decision.</b>
         </p>

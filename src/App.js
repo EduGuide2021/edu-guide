@@ -93,6 +93,7 @@ function App() {
               <Route exact path="/gencourses" component={GenCourses} />
               <Route exact path="/specdesc" component={SpecDesc} />
               <Route exact path="/bscompsci" component={BSCompSci} />
+              <Route exact path="/bsenterprice" component={BSEntrep} />
               <Route exact path="/spectest2" component={SpecTest2} />
               <Route exact path="/spectest3" component={SpecTest3} />
               <Route exact path="/specresults1" component={SpecResults1} />

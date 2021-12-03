@@ -21,8 +21,10 @@ function TestResults() {
       <h3> {header}'s Test Results</h3>
       <table className="results">
         <tr>
-          <td className="blue">General Test Score</td>
-          <td className="orange">{userInfo?.general_test_score}</td>
+          <td className="blue">General Test</td>
+          {userInfo?.general_test_score?.split(',')?.map(item=>{
+            return <td className="blue">{item}</td>
+          })}
         </tr>
         <br></br>
         <tr>
@@ -32,6 +34,20 @@ function TestResults() {
             {item?.test_name} / {item?.score}
           </td>
           })}
+          
+        </tr>
+        <tr>
+          <td className="blue">General Test Count</td>
+          <td className="orange">
+            {userInfo?.general_test_count}
+          </td>
+          
+        </tr>
+        <tr>
+          <td className="blue">Specialized Test Count</td>
+          <td className="orange">
+            {userInfo?.special_test_count}
+          </td>
           
         </tr>
       </table>

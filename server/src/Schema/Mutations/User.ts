@@ -1,7 +1,8 @@
-import { GraphQLID, GraphQLInt, GraphQLList, GraphQLObjectType, GraphQLString } from "graphql";
+import { GraphQLID, GraphQLInputObjectType, GraphQLInt, GraphQLList, GraphQLObjectType, GraphQLScalarType, GraphQLSchema, GraphQLString } from "graphql";
 import { UserInfoType, UserType } from "../TypeDefs/User";
 import { MessageType } from "../TypeDefs/Messages";
 import { Users } from "../../Entities/Users";
+import { Any } from "typeorm";
 
 export const CREATE_USER = {
   type: UserType,
@@ -88,13 +89,13 @@ export const UPDATE_PASSWORD = {
 export const EDIT_PROFILE = {
   type: MessageType,
   args: {
-    id: {type: GraphQLID},
+    id: { type: GraphQLID },
     newUsername: { type: GraphQLString },
     newLevelStrand: { type: GraphQLString },
     newSchool: { type: GraphQLString },
   },
   async resolve(parent: any, args: any) {
-    const { id,newUsername, newLevelStrand, newSchool } = args;
+    const { id, newUsername, newLevelStrand, newSchool } = args;
     const user = await Users.findOne({ id: id });
 
     if (user) {
@@ -127,10 +128,7 @@ export const DELETE_USER = {
 
 export const UPDATE_GENERAL_SCORE = {
   type: MessageType,
-  args: {
-    id: { type: GraphQLID },
-    score: { type: GraphQLInt }
-  },
+  args: { id: {type:GraphQLID}, score: {type:GraphQLString} },
   async resolve(parent: any, args: any) {
     const id = args.id;
     const score = args.score
@@ -139,7 +137,8 @@ export const UPDATE_GENERAL_SCORE = {
       await Users.update(
         { id: id },
         {
-          general_test_score: score
+          general_test_score: score,
+          general_test_count: user.general_test_count + 1
         }
       );
 
@@ -160,7 +159,7 @@ export const GET_CURRENT_USER = {
     const id = args.id;
     const user = await Users.findOne({ id: id });
     if (user) {
-      return { successful: true, message: "GET USER SUCCESS",user:user };
+      return { successful: true, message: "GET USER SUCCESS", user: user };
     }
 
     return { successful: false, message: "GET USER FAILED" };

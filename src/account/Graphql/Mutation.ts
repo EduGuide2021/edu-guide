@@ -44,6 +44,8 @@ export const USER_LOGIN = gql`
         school
         is_admin
         general_test_score
+        general_test_count
+        special_test_count
       }
     }
   }
@@ -127,7 +129,7 @@ export const DELETE_BLOG = gql`
 export const UPDATE_GENERAL_SCORE = gql`
   mutation updateGeneralScore(
     $id: ID!
-    $score: Int!
+    $score: String!
   ) {
     updateGeneralScore(
       id: $id
@@ -172,6 +174,8 @@ export const GET_CURRENT_USER = gql`
         school
         is_admin
         general_test_score
+        general_test_count
+        special_test_count
       }
     }
   }

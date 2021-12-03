@@ -19,6 +19,7 @@ export const UPDATE_SPECIAL_TEST = {
       const test_score = args.test_score
       const test_name = args.test_name
       const user = await Users.findOne({ id: id });
+      
       if (user) {
         await SpecialTest.insert(
           {
@@ -28,7 +29,7 @@ export const UPDATE_SPECIAL_TEST = {
             score: test_score
           }
         );
-  
+        await Users.update({id:id},{special_test_count:user.special_test_count+1})
         return { successful: true, message: "Special test added" };
       }
   
